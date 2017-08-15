@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-reverse-engineering PUBLIC "-//Hibernate/Hibernate Reverse Engineering DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-reverse-engineering-3.0.dtd" >
+
+<hibernate-reverse-engineering>
+	<table-filter match-name="clave" match-catalog="kumibd"></table-filter>
+	<table-filter match-name="cliente" match-catalog="kumibd"></table-filter>
+	<table-filter match-name="orden_compra" match-catalog="kumibd"></table-filter>
+	<table-filter match-name="orden_compra_producto"
+		match-catalog="kumibd">
+	</table-filter>
+	<table-filter match-name="perfil" match-catalog="kumibd"></table-filter>
+	<table-filter match-name="persona" match-catalog="kumibd"></table-filter>
+	<table-filter match-name="persona_sucursal"
+		match-catalog="kumibd">
+	</table-filter>
+	<table-filter match-name="producto" match-catalog="kumibd"></table-filter>
+	<table-filter match-name="sucursal" match-catalog="kumibd"></table-filter>
+</hibernate-reverse-engineering>
