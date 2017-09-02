@@ -1,5 +1,5 @@
 package com.ks.entities;
-// Generated 15-ago-2017 22:28:36 by Hibernate Tools 5.2.3.Final
+// Generated 02-sep-2017 15:22:27 by Hibernate Tools 5.2.3.Final
 
 import java.util.Date;
 import java.util.HashSet;
@@ -13,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -27,15 +28,15 @@ import javax.persistence.TemporalType;
 public class Persona implements java.io.Serializable {
 
 	private Long id;
+	private Perfil perfil;
 	private String nombre;
 	private String apellido1;
 	private String apellido2;
-	private Integer idPerfil;
 	private Date FAlta;
 	private Date FModif;
+	private Set<Sucursal> sucursals = new HashSet<Sucursal>(0);
 	private Set<OrdenCompra> ordenCompras = new HashSet<OrdenCompra>(0);
 	private Clave clave;
-	private Set<Sucursal> sucursals = new HashSet<Sucursal>(0);
 
 	public Persona() {
 	}
@@ -48,17 +49,17 @@ public class Persona implements java.io.Serializable {
 		this.FModif = FModif;
 	}
 
-	public Persona(String nombre, String apellido1, String apellido2, Integer idPerfil, Date FAlta, Date FModif,
-			Set<OrdenCompra> ordenCompras, Clave clave, Set<Sucursal> sucursals) {
+	public Persona(Perfil perfil, String nombre, String apellido1, String apellido2, Date FAlta, Date FModif,
+			Set<Sucursal> sucursals, Set<OrdenCompra> ordenCompras, Clave clave) {
+		this.perfil = perfil;
 		this.nombre = nombre;
 		this.apellido1 = apellido1;
 		this.apellido2 = apellido2;
-		this.idPerfil = idPerfil;
 		this.FAlta = FAlta;
 		this.FModif = FModif;
+		this.sucursals = sucursals;
 		this.ordenCompras = ordenCompras;
 		this.clave = clave;
-		this.sucursals = sucursals;
 	}
 
 	@Id
@@ -71,6 +72,16 @@ public class Persona implements java.io.Serializable {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "ID_PERFIL")
+	public Perfil getPerfil() {
+		return this.perfil;
+	}
+
+	public void setPerfil(Perfil perfil) {
+		this.perfil = perfil;
 	}
 
 	@Column(name = "NOMBRE", nullable = false, length = 100)
@@ -100,15 +111,6 @@ public class Persona implements java.io.Serializable {
 		this.apellido2 = apellido2;
 	}
 
-	@Column(name = "ID_PERFIL")
-	public Integer getIdPerfil() {
-		return this.idPerfil;
-	}
-
-	public void setIdPerfil(Integer idPerfil) {
-		this.idPerfil = idPerfil;
-	}
-
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "F_ALTA", nullable = false, length = 19)
 	public Date getFAlta() {
@@ -129,6 +131,18 @@ public class Persona implements java.io.Serializable {
 		this.FModif = FModif;
 	}
 
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(name = "persona_sucursal", catalog = "kumibd", joinColumns = {
+			@JoinColumn(name = "ID_PERSONA", nullable = false, updatable = false) }, inverseJoinColumns = {
+					@JoinColumn(name = "ID_SUCURSAL", nullable = false, updatable = false) })
+	public Set<Sucursal> getSucursals() {
+		return this.sucursals;
+	}
+
+	public void setSucursals(Set<Sucursal> sucursals) {
+		this.sucursals = sucursals;
+	}
+
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "persona")
 	public Set<OrdenCompra> getOrdenCompras() {
 		return this.ordenCompras;
@@ -145,18 +159,6 @@ public class Persona implements java.io.Serializable {
 
 	public void setClave(Clave clave) {
 		this.clave = clave;
-	}
-
-	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(name = "persona_sucursal", catalog = "kumibd", joinColumns = {
-			@JoinColumn(name = "ID_PERSONA", nullable = false, updatable = false) }, inverseJoinColumns = {
-					@JoinColumn(name = "ID_SUCURSAL", nullable = false, updatable = false) })
-	public Set<Sucursal> getSucursals() {
-		return this.sucursals;
-	}
-
-	public void setSucursals(Set<Sucursal> sucursals) {
-		this.sucursals = sucursals;
 	}
 
 }

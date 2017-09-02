@@ -3,6 +3,7 @@ package com.ks.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,16 +30,16 @@ public class ClientesServices implements IClientesServices {
 		List<Cliente> clientesEntity=(List<Cliente>) this.clientesDAO.findAll();
 		List<ClienteDto> clientes= new  ArrayList<ClienteDto>();
 		
-		for (Cliente clinenteEntity : clientesEntity) {
-			ClienteDto clenteDto=new ClienteDto();
-			clenteDto=(ClienteDto)this.mapper.map(clinenteEntity, ClienteDto.class, ConstantesDozer.LISTA_CLIENTES_MAP);
-			clientes.add(clenteDto);
-		}
+//		for (Cliente clinenteEntity : clientesEntity) {
+//			ClienteDto clenteDto=new ClienteDto();
+//			clenteDto=(ClienteDto)this.mapper.map(clinenteEntity, ClienteDto.class, ConstantesDozer.LISTA_CLIENTES_MAP);
+//			clientes.add(clenteDto);
+//		}
 		
-//		clientes=clientesEntity
-//				.stream()
-//				.map(itemEntity->this.mapper.map(itemEntity, ClienteDto.class,ConstantesDozer.LISTA_CLIENTES_MAP))
-//				.collect(Collectors.toCollection(ArrayList::new));
+		clientes=clientesEntity
+				.stream()
+				.map(itemEntity->this.mapper.map(itemEntity, ClienteDto.class,ConstantesDozer.LISTA_CLIENTES_MAP))
+				.collect(Collectors.toCollection(ArrayList::new));
 		return clientes;
 	}
 
