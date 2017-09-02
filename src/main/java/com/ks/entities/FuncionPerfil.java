@@ -1,5 +1,5 @@
 package com.ks.entities;
-// Generated 02-sep-2017 15:22:27 by Hibernate Tools 5.2.3.Final
+// Generated 02-sep-2017 16:26:57 by Hibernate Tools 5.2.3.Final
 
 import java.util.Date;
 import javax.persistence.Column;
@@ -21,7 +21,6 @@ public class FuncionPerfil implements java.io.Serializable {
 	private String codigo;
 	private String nombre;
 	private String descripcion;
-	private Long precioActual;
 	private Date FAlta;
 	private Date FModif;
 
@@ -36,14 +35,13 @@ public class FuncionPerfil implements java.io.Serializable {
 		this.FModif = FModif;
 	}
 
-	public FuncionPerfil(long id, Integer idPerfil, String codigo, String nombre, String descripcion, Long precioActual,
-			Date FAlta, Date FModif) {
+	public FuncionPerfil(long id, Integer idPerfil, String codigo, String nombre, String descripcion, Date FAlta,
+			Date FModif) {
 		this.id = id;
 		this.idPerfil = idPerfil;
 		this.codigo = codigo;
 		this.nombre = nombre;
 		this.descripcion = descripcion;
-		this.precioActual = precioActual;
 		this.FAlta = FAlta;
 		this.FModif = FModif;
 	}
@@ -93,15 +91,6 @@ public class FuncionPerfil implements java.io.Serializable {
 
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
-	}
-
-	@Column(name = "PRECIO_ACTUAL", precision = 10, scale = 0)
-	public Long getPrecioActual() {
-		return this.precioActual;
-	}
-
-	public void setPrecioActual(Long precioActual) {
-		this.precioActual = precioActual;
 	}
 
 	@Temporal(TemporalType.TIMESTAMP)

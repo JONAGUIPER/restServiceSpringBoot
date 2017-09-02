@@ -1,5 +1,5 @@
 package com.ks.modelo.entities;
-// Generated 15-ago-2017 22:28:36 by Hibernate Tools 5.2.3.Final
+// Generated 02-sep-2017 16:26:57 by Hibernate Tools 5.2.3.Final
 
 import java.util.Date;
 import java.util.HashSet;
@@ -29,6 +29,10 @@ public class Sucursal implements java.io.Serializable {
 	private String codigo;
 	private int tipo;
 	private String direccionDespacho;
+	private String telefono;
+	private String telefonoLocal;
+	private String email1;
+	private String email2;
 	private Date horaIniLab;
 	private Date horaFinLab;
 	private Date horaIniDescanso;
@@ -42,8 +46,8 @@ public class Sucursal implements java.io.Serializable {
 	private Integer idCondPago;
 	private Date FModif;
 	private Date FAlta;
-	private Set<Persona> personas = new HashSet<Persona>(0);
 	private Set<OrdenCompra> ordenCompras = new HashSet<OrdenCompra>(0);
+	private Set<Persona> personas = new HashSet<Persona>(0);
 
 	public Sucursal() {
 	}
@@ -60,15 +64,20 @@ public class Sucursal implements java.io.Serializable {
 		this.FAlta = FAlta;
 	}
 
-	public Sucursal(long id, Cliente cliente, String codigo, int tipo, String direccionDespacho, Date horaIniLab,
-			Date horaFinLab, Date horaIniDescanso, Date horaFinDescanso, Date horaIniDespacho, Date horaFinDespacho,
-			int idTipoContribuyente, Long idVendedor, int idZona, String representante, Integer idCondPago, Date FModif,
-			Date FAlta, Set<Persona> personas, Set<OrdenCompra> ordenCompras) {
+	public Sucursal(long id, Cliente cliente, String codigo, int tipo, String direccionDespacho, String telefono,
+			String telefonoLocal, String email1, String email2, Date horaIniLab, Date horaFinLab, Date horaIniDescanso,
+			Date horaFinDescanso, Date horaIniDespacho, Date horaFinDespacho, int idTipoContribuyente, Long idVendedor,
+			int idZona, String representante, Integer idCondPago, Date FModif, Date FAlta,
+			Set<OrdenCompra> ordenCompras, Set<Persona> personas) {
 		this.id = id;
 		this.cliente = cliente;
 		this.codigo = codigo;
 		this.tipo = tipo;
 		this.direccionDespacho = direccionDespacho;
+		this.telefono = telefono;
+		this.telefonoLocal = telefonoLocal;
+		this.email1 = email1;
+		this.email2 = email2;
 		this.horaIniLab = horaIniLab;
 		this.horaFinLab = horaFinLab;
 		this.horaIniDescanso = horaIniDescanso;
@@ -82,8 +91,8 @@ public class Sucursal implements java.io.Serializable {
 		this.idCondPago = idCondPago;
 		this.FModif = FModif;
 		this.FAlta = FAlta;
-		this.personas = personas;
 		this.ordenCompras = ordenCompras;
+		this.personas = personas;
 	}
 
 	@Id
@@ -132,6 +141,42 @@ public class Sucursal implements java.io.Serializable {
 
 	public void setDireccionDespacho(String direccionDespacho) {
 		this.direccionDespacho = direccionDespacho;
+	}
+
+	@Column(name = "TELEFONO", length = 12)
+	public String getTelefono() {
+		return this.telefono;
+	}
+
+	public void setTelefono(String telefono) {
+		this.telefono = telefono;
+	}
+
+	@Column(name = "TELEFONO_LOCAL", length = 12)
+	public String getTelefonoLocal() {
+		return this.telefonoLocal;
+	}
+
+	public void setTelefonoLocal(String telefonoLocal) {
+		this.telefonoLocal = telefonoLocal;
+	}
+
+	@Column(name = "EMAIL_1", length = 50)
+	public String getEmail1() {
+		return this.email1;
+	}
+
+	public void setEmail1(String email1) {
+		this.email1 = email1;
+	}
+
+	@Column(name = "EMAIL_2", length = 50)
+	public String getEmail2() {
+		return this.email2;
+	}
+
+	public void setEmail2(String email2) {
+		this.email2 = email2;
 	}
 
 	@Temporal(TemporalType.TIME)
@@ -259,6 +304,15 @@ public class Sucursal implements java.io.Serializable {
 		this.FAlta = FAlta;
 	}
 
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "sucursal")
+	public Set<OrdenCompra> getOrdenCompras() {
+		return this.ordenCompras;
+	}
+
+	public void setOrdenCompras(Set<OrdenCompra> ordenCompras) {
+		this.ordenCompras = ordenCompras;
+	}
+
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "persona_sucursal", catalog = "kumibd", joinColumns = {
 			@JoinColumn(name = "ID_SUCURSAL", nullable = false, updatable = false) }, inverseJoinColumns = {
@@ -269,15 +323,6 @@ public class Sucursal implements java.io.Serializable {
 
 	public void setPersonas(Set<Persona> personas) {
 		this.personas = personas;
-	}
-
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "sucursal")
-	public Set<OrdenCompra> getOrdenCompras() {
-		return this.ordenCompras;
-	}
-
-	public void setOrdenCompras(Set<OrdenCompra> ordenCompras) {
-		this.ordenCompras = ordenCompras;
 	}
 
 }

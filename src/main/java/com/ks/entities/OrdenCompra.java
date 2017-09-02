@@ -1,5 +1,5 @@
 package com.ks.entities;
-// Generated 02-sep-2017 15:22:27 by Hibernate Tools 5.2.3.Final
+// Generated 02-sep-2017 16:26:57 by Hibernate Tools 5.2.3.Final
 
 import java.util.Date;
 import java.util.HashSet;
@@ -9,8 +9,9 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -31,7 +32,7 @@ public class OrdenCompra implements java.io.Serializable {
 	private String observaciones;
 	private Date FAlta;
 	private Date FModif;
-	private Set<ProductoOrden> productoOrdens = new HashSet<ProductoOrden>(0);
+	private Set<Producto> productos = new HashSet<Producto>(0);
 
 	public OrdenCompra() {
 	}
@@ -44,7 +45,7 @@ public class OrdenCompra implements java.io.Serializable {
 	}
 
 	public OrdenCompra(long id, Persona persona, Sucursal sucursal, String codigo, Integer diasCredito,
-			Integer idCondicionPago, String observaciones, Date FAlta, Date FModif, Set<ProductoOrden> productoOrdens) {
+			Integer idCondicionPago, String observaciones, Date FAlta, Date FModif, Set<Producto> productos) {
 		this.id = id;
 		this.persona = persona;
 		this.sucursal = sucursal;
@@ -54,7 +55,7 @@ public class OrdenCompra implements java.io.Serializable {
 		this.observaciones = observaciones;
 		this.FAlta = FAlta;
 		this.FModif = FModif;
-		this.productoOrdens = productoOrdens;
+		this.productos = productos;
 	}
 
 	@Id
@@ -144,13 +145,16 @@ public class OrdenCompra implements java.io.Serializable {
 		this.FModif = FModif;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "ordenCompra")
-	public Set<ProductoOrden> getProductoOrdens() {
-		return this.productoOrdens;
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(name = "producto_orden", catalog = "kumibd", joinColumns = {
+			@JoinColumn(name = "ID_ORDEN_COMPRA", nullable = false, updatable = false) }, inverseJoinColumns = {
+					@JoinColumn(name = "ID_PRODUCTO", nullable = false, updatable = false) })
+	public Set<Producto> getProductos() {
+		return this.productos;
 	}
 
-	public void setProductoOrdens(Set<ProductoOrden> productoOrdens) {
-		this.productoOrdens = productoOrdens;
+	public void setProductos(Set<Producto> productos) {
+		this.productos = productos;
 	}
 
 }

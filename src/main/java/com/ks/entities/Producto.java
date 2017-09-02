@@ -1,5 +1,5 @@
 package com.ks.entities;
-// Generated 02-sep-2017 15:22:27 by Hibernate Tools 5.2.3.Final
+// Generated 02-sep-2017 16:26:57 by Hibernate Tools 5.2.3.Final
 
 import java.util.Date;
 import java.util.HashSet;
@@ -8,7 +8,9 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -23,10 +25,11 @@ public class Producto implements java.io.Serializable {
 
 	private long id;
 	private String codigo;
+	private Double precioActual;
 	private String descripcion;
 	private Date FAlta;
 	private Date FModif;
-	private Set<ProductoOrden> productoOrdens = new HashSet<ProductoOrden>(0);
+	private Set<OrdenCompra> ordenCompras = new HashSet<OrdenCompra>(0);
 
 	public Producto() {
 	}
@@ -38,14 +41,15 @@ public class Producto implements java.io.Serializable {
 		this.FModif = FModif;
 	}
 
-	public Producto(long id, String codigo, String descripcion, Date FAlta, Date FModif,
-			Set<ProductoOrden> productoOrdens) {
+	public Producto(long id, String codigo, Double precioActual, String descripcion, Date FAlta, Date FModif,
+			Set<OrdenCompra> ordenCompras) {
 		this.id = id;
 		this.codigo = codigo;
+		this.precioActual = precioActual;
 		this.descripcion = descripcion;
 		this.FAlta = FAlta;
 		this.FModif = FModif;
-		this.productoOrdens = productoOrdens;
+		this.ordenCompras = ordenCompras;
 	}
 
 	@Id
@@ -66,6 +70,15 @@ public class Producto implements java.io.Serializable {
 
 	public void setCodigo(String codigo) {
 		this.codigo = codigo;
+	}
+
+	@Column(name = "PRECIO_ACTUAL", precision = 20, scale = 0)
+	public Double getPrecioActual() {
+		return this.precioActual;
+	}
+
+	public void setPrecioActual(Double precioActual) {
+		this.precioActual = precioActual;
 	}
 
 	@Column(name = "DESCRIPCION", length = 200)
@@ -97,13 +110,16 @@ public class Producto implements java.io.Serializable {
 		this.FModif = FModif;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "producto")
-	public Set<ProductoOrden> getProductoOrdens() {
-		return this.productoOrdens;
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(name = "producto_orden", catalog = "kumibd", joinColumns = {
+			@JoinColumn(name = "ID_PRODUCTO", nullable = false, updatable = false) }, inverseJoinColumns = {
+					@JoinColumn(name = "ID_ORDEN_COMPRA", nullable = false, updatable = false) })
+	public Set<OrdenCompra> getOrdenCompras() {
+		return this.ordenCompras;
 	}
 
-	public void setProductoOrdens(Set<ProductoOrden> productoOrdens) {
-		this.productoOrdens = productoOrdens;
+	public void setOrdenCompras(Set<OrdenCompra> ordenCompras) {
+		this.ordenCompras = ordenCompras;
 	}
 
 }

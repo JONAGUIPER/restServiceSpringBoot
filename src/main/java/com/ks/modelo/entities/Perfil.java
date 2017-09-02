@@ -1,12 +1,16 @@
 package com.ks.modelo.entities;
-// Generated 15-ago-2017 22:28:36 by Hibernate Tools 5.2.3.Final
+// Generated 02-sep-2017 16:26:57 by Hibernate Tools 5.2.3.Final
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import static javax.persistence.GenerationType.IDENTITY;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -19,17 +23,25 @@ import javax.persistence.TemporalType;
 public class Perfil implements java.io.Serializable {
 
 	private Integer id;
-	private String perfil;
+	private String nombre;
 	private Date FAlta;
 	private Date FModif;
+	private Set<Persona> personas = new HashSet<Persona>(0);
 
 	public Perfil() {
 	}
 
-	public Perfil(String perfil, Date FAlta, Date FModif) {
-		this.perfil = perfil;
+	public Perfil(String nombre, Date FAlta, Date FModif) {
+		this.nombre = nombre;
 		this.FAlta = FAlta;
 		this.FModif = FModif;
+	}
+
+	public Perfil(String nombre, Date FAlta, Date FModif, Set<Persona> personas) {
+		this.nombre = nombre;
+		this.FAlta = FAlta;
+		this.FModif = FModif;
+		this.personas = personas;
 	}
 
 	@Id
@@ -44,13 +56,13 @@ public class Perfil implements java.io.Serializable {
 		this.id = id;
 	}
 
-	@Column(name = "PERFIL", nullable = false, length = 20)
-	public String getPerfil() {
-		return this.perfil;
+	@Column(name = "NOMBRE", nullable = false, length = 10)
+	public String getNombre() {
+		return this.nombre;
 	}
 
-	public void setPerfil(String perfil) {
-		this.perfil = perfil;
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
 	}
 
 	@Temporal(TemporalType.TIMESTAMP)
@@ -71,6 +83,15 @@ public class Perfil implements java.io.Serializable {
 
 	public void setFModif(Date FModif) {
 		this.FModif = FModif;
+	}
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "perfil")
+	public Set<Persona> getPersonas() {
+		return this.personas;
+	}
+
+	public void setPersonas(Set<Persona> personas) {
+		this.personas = personas;
 	}
 
 }
